@@ -42,6 +42,14 @@ Sistema desenvolvido para o gerenciamento de creches, criado por mim **Thiago Me
   > O sistema possui um manual de usuário onde poderá ser acessado diretamente dentro da pasta **dist** abrindo o arquivo **manual_usuario** ou por meio do menu *ajuda* dentro do sistema.
   
   
+  ## Logins e senhas de acesso ao sistema
+  
+  | Login  |  Senha  |
+  | ------ | ------- |
+  |  admin |  asdw |
+  |  user1 |  1234 |
+  |  user2 |  0102 |
+  
   ## Prints do Sistema
 
 
