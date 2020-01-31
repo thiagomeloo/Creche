@@ -13,12 +13,16 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 import java.awt.Desktop;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
@@ -78,6 +82,25 @@ public class ListarAlunos extends javax.swing.JInternalFrame {
             TabelaPesquisarAluno.getColumnModel().getColumn(i).setMaxWidth(0);
             i++;
         }
+    }
+    
+    Properties config = new Properties();
+    String arquivo = "conf.ini";//local do arquivo
+    
+    public boolean getConf() throws IOException{
+        
+        try {
+            
+            config.load(new FileInputStream(arquivo));
+            
+            return true;
+            
+            
+        } catch (FileNotFoundException ex) {
+            return false;
+        }
+        
+        
     }
     
     public void ListarAlunosPorMatComLike(String str){    
@@ -169,31 +192,59 @@ public class ListarAlunos extends javax.swing.JInternalFrame {
             document.open();
 
             // ADICIONANDO IMAGEM 
-            Image image = Image.getInstance(jLabel1.getIcon().toString());
-            image.setAlignment(Element.ALIGN_CENTER);
-            document.add(image);
 
             BaseFont bf = BaseFont.createFont(FontFactory.TIMES_BOLD, BaseFont.WINANSI, BaseFont.EMBEDDED);
-            Font fonteNormal = new Font(bf, 11);
-            Paragraph l1 = new Paragraph("ESTADO DO RIO GRANDE DO NORTE", fonteNormal);
-            l1.setAlignment(1);
-            document.add(l1);
-            Paragraph l2 = new Paragraph("PREFEITURA MUNICIPAL DE SERRINHA", fonteNormal);
-            l2.setAlignment(1);
-            document.add(l2);
-            Paragraph l3 = new Paragraph("SECRETARIA MUNICIPAL DE EDUCAÇÃO", fonteNormal);
-            l3.setAlignment(1);
-            document.add(l3);
-            Paragraph l4 = new Paragraph("CENTRO MUNICIPAL DE EDUCAÇÃO INFANTIL CORAÇÂO DE ESTUDANTE ", fonteNormal);
-            l4.setAlignment(1);
-            document.add(l4);
-            Paragraph l5 = new Paragraph("Rua José Correia de Andrade,S/N. Centro. Serrinha/RN. CEP:59258-000 ", fonteNormal);
-            l5.setAlignment(1);
-            l5.setSpacingAfter(10);
-            document.add(l5);
-            LineSeparator separador = new LineSeparator();
-            separador.setLineWidth(2);
-            document.add(separador);
+            if(!getConf()){
+                Image image = Image.getInstance(jLabel1.getIcon().toString());
+                image.setAlignment(Element.ALIGN_CENTER);
+                document.add(image);
+                Font fonteNormal = new Font(bf, 11);
+                Paragraph l1 = new Paragraph("ESTADO DO RIO GRANDE DO NORTE", fonteNormal);
+                l1.setAlignment(1);
+                document.add(l1);
+                Paragraph l2 = new Paragraph("PREFEITURA MUNICIPAL DE SERRINHA", fonteNormal);
+                l2.setAlignment(1);
+                document.add(l2);
+                Paragraph l3 = new Paragraph("SECRETARIA MUNICIPAL DE EDUCAÇÃO", fonteNormal);
+                l3.setAlignment(1);
+                document.add(l3);
+                Paragraph l4 = new Paragraph("CENTRO MUNICIPAL DE EDUCAÇÃO INFANTIL CORAÇÂO DE ESTUDANTE ", fonteNormal);
+                l4.setAlignment(1);
+                document.add(l4);
+                Paragraph l5 = new Paragraph("Rua José Correia de Andrade,S/N. Centro. Serrinha/RN. CEP:59258-000 ", fonteNormal);
+                l5.setAlignment(1);
+                l5.setSpacingAfter(10);
+                document.add(l5);
+                LineSeparator separador = new LineSeparator();
+                separador.setLineWidth(2);
+                document.add(separador);
+            }else{
+                Image image = Image.getInstance(config.getProperty("imagem"));
+                image.setAlignment(Element.ALIGN_CENTER);
+                document.add(image);
+                Font fonteNormal = new Font(bf, 11);
+                Paragraph l1 = new Paragraph(config.getProperty("estado"), fonteNormal);
+                l1.setAlignment(1);
+                document.add(l1);
+                Paragraph l2 = new Paragraph(config.getProperty("prefeitura"), fonteNormal);
+                l2.setAlignment(1);
+                document.add(l2);
+                Paragraph l3 = new Paragraph(config.getProperty("secretaria"), fonteNormal);
+                l3.setAlignment(1);
+                document.add(l3);
+                Paragraph l4 = new Paragraph(config.getProperty("nomeEscola"), fonteNormal);
+                l4.setAlignment(1);
+                document.add(l4);
+                Paragraph l5 = new Paragraph(config.getProperty("rua"), fonteNormal);
+                l5.setAlignment(1);
+                l5.setSpacingAfter(10);
+                document.add(l5);
+                LineSeparator separador = new LineSeparator();
+                separador.setLineWidth(2);
+                document.add(separador);
+            }
+            
+
 
             Font fonteDeclaracao = new Font(bf, 18);
             Paragraph declaracao = new Paragraph("DECLARAÇÃO", fonteDeclaracao);
