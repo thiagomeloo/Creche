@@ -344,8 +344,13 @@ public class ListarAlunos extends javax.swing.JInternalFrame {
             
             Date dataAtual = new Date();
             SimpleDateFormat formatad = new SimpleDateFormat("dd/MM/yyyy");
+            Paragraph data;
+            if(!getConf()){
+                data = (new Paragraph("Serrinha, ",NORMAL));
+            }else{
+                data = data = (new Paragraph(config.getProperty("cidade")+", ",NORMAL));
+            }
             
-            Paragraph data = (new Paragraph("Serrinha, ",NORMAL));
             data.add(new Phrase(formatad.format( dataAtual ),BOLD));
             data.setAlignment(Element.ALIGN_RIGHT);
             
